@@ -32,7 +32,7 @@ NOTE: Replace this image with your diagram.
 ---
 
 ## 4. Screenshots (Proof of Work)
-Once the project is deployed, add 2-3 proof screenshots when you deploy once: 
+Once the project is deployed, add 2-3 proof screenshots when you deploy it once: 
 
 a. **AWS Console**  
    _Example: EKS cluster deployed_  
@@ -55,7 +55,7 @@ AWS Services (EC2, S3, IAM, etc.), Terraform, GitHub Actions, Python
 ## 6. Cost Note
 This project is created on-demand and destroyed after screenshots are taken to avoid AWS charges.  
 
-Security: [Policy](SECURITY.md) • [Checklist](docs/security-checklist.md)
+Security: [Policy](SECURITY.md) • [Security Checklist](docs/security-checklist.md)
 
 ---
 
@@ -64,7 +64,7 @@ Security: [Policy](SECURITY.md) • [Checklist](docs/security-checklist.md)
 /docs        -> Architecture diagrams & screenshots  
 /scripts     -> Helper scripts  
 /README.md   -> Project description  
-/SECURITY.md -> Security policy
+/SECURITY.md -> Security policy  
 /CONTRIBUTING.md -> Contribution rules (you as a sole maintainer)
 
    
