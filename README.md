@@ -51,6 +51,8 @@ AWS Services (EC2, S3, IAM, etc.), Terraform, GitHub Actions, Python
 /docs        -> Architecture diagrams & screenshots  
 /scripts     -> Helper scripts  
 /README.md   -> Project description  
+/SECURITY.md -> Repo and other security points
+/CONTRIBUTING.md -> States that I am the ONLY contributor to this repo
 
    
    Apply complete! Resources: 12 added, 0 changed, 0 destroyed.
