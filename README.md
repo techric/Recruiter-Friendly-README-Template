@@ -19,7 +19,7 @@
 <li> **Take 2–3 screenshots** (AWS Console, Grafana, AWS Athena/queries, AWS QuickSight charts) and save them in `docs/screenshots/`.
 <li> **Add an architecture diagram** to `docs/architecture.png`.d. **Destroy the infra** to avoid charges (`terraform destroy`).
 <li> Fill in the sections below (What This Shows, Architecture, Screenshots, Tech Used).
-<Li> Link your security docs: 🔐 [Policy](SECURITY.md) • [Checklist](docs/security-checklist.md).
+<Li> Link your security docs: [Policy](SECURITY.md) • [Checklist](docs/security-checklist.md).
 </ol>
 
 ---
@@ -48,14 +48,14 @@ c. **Command Line Output**
 ---
 
 ## 5. Tech Used
-AWS Services (EC2, S3, IAM, etc.), Terraform, GitHub Actions, Python  
+Example: AWS Services (EC2, S3, IAM, etc.), Terraform, GitHub Actions, Python  
 
 ---
 
 ## 6. Cost Note
 This project is created on-demand and destroyed after screenshots are taken to avoid AWS charges.  
 
-Security: [Policy](SECURITY.md) • [Security Checklist](docs/security-checklist.md)
+Security: [Security Policy](SECURITY.md) • [Security Checklist](docs/security-checklist.md)
 
 ---
 
