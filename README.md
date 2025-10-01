@@ -12,6 +12,7 @@
 - [ ] Impact: (short statement — e.g., "Improved incident visibility, reduced MTTR by 40%.")
 
 ---
+
 ## 2. How to Use This Template
 <ol type="a">
 <li> **Deploy once** (small/dev resources) → validate it works.
@@ -20,15 +21,17 @@
 <li> Fill in the sections below (What This Shows, Architecture, Screenshots, Tech Used).
 <Li> Link your security docs: 🔐 [Policy](SECURITY.md) • [Checklist](docs/security-checklist.md).
 </ol>
+
 ---
-## 2. Architecture
+
+## 3. Architecture
 High-level diagram of how services fit together.
 NOTE: Replace this image with your diagram.
 ![Architecture](docs/architecture.png)
 
 ---
 
-## 3. Screenshots (Proof of Work)
+## 4. Screenshots (Proof of Work)
 Once the project is deployed, add 2-3 proof screenshots when you deploy once: 
 
 a. **AWS Console**  
@@ -44,18 +47,19 @@ c. **Command Line Output**
    
 ---
 
-## 4. Tech Used
+## 5. Tech Used
 AWS Services (EC2, S3, IAM, etc.), Terraform, GitHub Actions, Python  
 
 ---
 
-## 5. Cost Note
+## 6. Cost Note
 This project is created on-demand and destroyed after screenshots are taken to avoid AWS charges.  
 
 Security: [Policy](SECURITY.md) • [Checklist](docs/security-checklist.md)
+
 ---
 
-## 6. Repo Structure
+## 7. Repo Structure
 /infra       -> Terraform code  
 /docs        -> Architecture diagrams & screenshots  
 /scripts     -> Helper scripts  
