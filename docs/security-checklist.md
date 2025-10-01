@@ -22,7 +22,7 @@
   - [ ] `terraform.tfvars`, `*.auto.tfvars`
   - [ ] `__pycache__/`, `.venv/`, `node_modules/`
   - [ ] `.DS_Store`, `Thumbs.db`
-- [ ] If a secret ever lands in git: **rotate the secret** and force-remove from history
+- [ ] If a secret ever lands in git: **rotate the secret** and scrub history
 
 ## 3) Security & Analysis (GitHub)
 - [ ] Settings → **Security & analysis**:
@@ -31,7 +31,7 @@
   - [ ] Enable **Dependabot alerts**
   - [ ] (Optional) Enable **Code scanning** (CodeQL)
 - [ ] Add `SECURITY.md` (policy + contact)
-- [ ] Add `CONTRIBUTING.md` (make clear you’re the only maintainer)
+- [ ] Add `CONTRIBUTING.md` (state you are the sole maintainer)
 
 ## 4) GitHub Actions (Safe-by-Default)
 - [ ] Actions run **lint/validate only** (no live deploys from public CI)
@@ -40,8 +40,8 @@
   - [ ] Require approval for first-time contributors
   - [ ] Disable workflows from **forked PRs** or require explicit approval
 - [ ] If you must access AWS from CI:
-  - [ ] Use **OIDC** to assume a scoped IAM role (no static keys)
-  - [ ] Scope trust policy to this repo and (optionally) environment
+  - [ ] Use OIDC to assume a **scoped IAM role** (no static keys)
+  - [ ] Scope trust policy to this repo (and environment if used)
   - [ ] Start with **plan-only**; apply only by manual approval or locally
 
 ## 5) AWS Usage (Sandbox & Cost Guardrails)
@@ -52,13 +52,13 @@
   - [ ] `Project`, `Owner`, `Environment`, `CostCenter`, `Purpose`, `TTLHours`
 - [ ] Add a **cleanup** path:
   - [ ] Document `terraform destroy` in README
-  - [ ] (Optional) TTL/Janitor job to find & remove expired resources
+  - [ ] (Optional) TTL/Janitor job to remove expired resources
 - [ ] Prefer smallest sizes (free tier where possible) for demos
 
 ## 6) Least Privilege & Service Controls
-- [ ] IAM roles/policies are **scoped** (no AdministratorAccess for demos)
+- [ ] IAM roles/policies are **scoped** (no `AdministratorAccess` for demos)
 - [ ] Use **AWS KMS** encryption for S3/DynamoDB where applicable
-- [ ] Use **VPC endpoints/PrivateLink** if the project demonstrates private access
+- [ ] Use **VPC endpoints / AWS PrivateLink** if demonstrating private access
 - [ ] Enable **AWS GuardDuty** & **AWS Security Hub** (if demonstrating security)
 - [ ] Keep **AWS CloudTrail** on in the sandbox account
 
@@ -77,3 +77,21 @@
 ---
 
 ### Quick Copy: Minimal `.gitignore` (Terraform-first)
+```gitignore
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+*.tfvars
+*.auto.tfvars
+.terraformrc
+terraform.rc
+.env
+*.pem
+*.key
+*.crt
+__pycache__/
+.venv/
+node_modules/
+.DS_Store
+Thumbs.db
