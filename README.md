@@ -13,12 +13,13 @@
 
 ---
 ## 2. How to Use This Template
-a. **Deploy once** (small/dev resources) → validate it works.
-b. **Take 2–3 screenshots** (AWS Console, Grafana, AWS Athena/queries, AWS QuickSight charts) and save them in `docs/screenshots/`.
-c. **Add an architecture diagram** to `docs/architecture.png`.d. **Destroy the infra** to avoid charges (`terraform destroy`).
-d. Fill in the sections below (What This Shows, Architecture, Screenshots, Tech Used).
-e. Link your security docs: 🔐 [Policy](SECURITY.md) • [Checklist](docs/security-checklist.md).
-
+<ol type="a">
+<li> **Deploy once** (small/dev resources) → validate it works.
+<li> **Take 2–3 screenshots** (AWS Console, Grafana, AWS Athena/queries, AWS QuickSight charts) and save them in `docs/screenshots/`.
+<li> **Add an architecture diagram** to `docs/architecture.png`.d. **Destroy the infra** to avoid charges (`terraform destroy`).
+<li> Fill in the sections below (What This Shows, Architecture, Screenshots, Tech Used).
+<Li> Link your security docs: 🔐 [Policy](SECURITY.md) • [Checklist](docs/security-checklist.md).
+</ol>
 ---
 ## 2. Architecture
 High-level diagram of how services fit together.
