@@ -39,11 +39,55 @@ This repository is a **public, recruiter-facing AWS demo/template**. It exists t
 
 ---
 
-## CI/CD Policy (Public Repo Safety)
+## CI/CD Policy (Public Repo Safety — GitHub Actions & GitLab CI)
 
-- GitHub Actions run **lint/validate/plan** only. **No applies** to AWS from public CI.
-- If a plan is enabled, it requires **manual approval** and is run by the maintainer.
-- Workflows from forks require explicit maintainer approval.
+**Goal:** CI runs *safe* checks (lint/validate/plan) only. No live cloud deploys from public pipelines.
+
+### Common Rules (both platforms)
+- Pipelines run **lint/format/validate** (and optionally **plan**) only.
+- **Never** store long-lived cloud keys in CI variables. If deployment is ever needed, use **OIDC** to assume a **scoped IAM role** at run time.
+- Jobs that could change infrastructure must require **maintainer approval** and run only on **protected branches/environments**.
+- **Forked PR/MR pipelines** must not execute privileged jobs without **explicit maintainer approval**.
+- Prefer **trusted runners** (self-hosted/group-scoped). Avoid executing privileged jobs on public/shared runners.
+- Keep artifacts to basics (logs, plans). No secrets in artifacts.
+
+### GitHub Actions
+- **Settings → Actions → General**
+  - Restrict to **GitHub-verified actions** you trust.
+  - **Require approval** for first-time contributors.
+  - (Recommended) Disable workflows from forks or require manual approval before they run.
+- Use the `id-token: write` permission and `aws-actions/configure-aws-credentials` **only** for plan-level jobs.
+- Example safe workflow scope:
+  - `terraform fmt` / `validate` (always)
+  - `terraform plan` (manual `workflow_dispatch` only)
+  - **No `apply`** from public CI.
+
+### GitLab CI
+- **Settings → CI/CD → Runners**
+  - Disable **shared runners** for privileged jobs; use **specific/group runners** with tags.
+- **Settings → CI/CD → Variables**
+  - If variables are needed, mark them **Masked** and **Protected**; scope to **protected branches** only.
+  - Prefer OIDC to assume a scoped role; do **not** store static keys.
+- **Settings → General → Visibility, project features, permissions**
+  - Disable **Public pipelines** for external forks, or require **maintainer approval**.
+- **MR pipeline rules**
+  - Run pipelines **only for merge requests** (e.g., `workflow: rules`) and require **maintainer approval** for MR pipelines from forks.
+- Example safe `.gitlab-ci.yml` (validate only):
+  ```yaml
+  stages: [validate]
+
+  validate:
+    image: hashicorp/terraform:1.6
+    stage: validate
+    script:
+      - terraform -chdir=infra/terraform/envs/dev init -backend=false
+      - terraform -chdir=infra/terraform/envs/dev fmt -check
+      - terraform -chdir=infra/terraform/envs/dev validate
+    rules:
+      - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      - if: '$CI_COMMIT_BRANCH == "main"'
+        when: always
+
 
 ---
 
