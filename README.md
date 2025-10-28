@@ -67,5 +67,11 @@ Security: [Security Policy](SECURITY.md) • [Security Checklist](docs/security-
 /SECURITY.md -> Security policy  
 /CONTRIBUTING.md -> Contribution rules (you as a sole maintainer)
 
+---
+
+About Me
+Created by Techric — a Cloud & DevSecOps Engineer dedicated to building secure, automated, and observable systems on AWS and Linux. Each project reflects my goal of turning technical exploration into clear, reproducible knowledge others can build upon.
+
+This repository documents real-world projects from my home lab and professional experience, showcasing practical problem-solving, infrastructure mastery, and a commitment to continuous learning.
    
    Apply complete! Resources: 12 added, 0 changed, 0 destroyed.
