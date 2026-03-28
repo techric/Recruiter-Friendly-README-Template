@@ -70,7 +70,7 @@ Security: [Security Policy](SECURITY.md) • [Security Checklist](docs/security-
 ---
 
 About Me
-Created by Techric — a Cloud & DevSecOps Engineer dedicated to building secure, automated, and observable systems on AWS and Linux. Each project reflects my goal of turning technical exploration into clear, reproducible knowledge others can build upon.
+Created by Techric — a Cloud Engineer dedicated to building secure, automated, and observable systems on AWS and Linux. Each project reflects my goal of turning technical exploration into clear, reproducible knowledge others can build upon.
 
 This repository documents real-world projects from my home lab and professional experience, showcasing practical problem-solving, infrastructure mastery, and a commitment to continuous learning.
    
