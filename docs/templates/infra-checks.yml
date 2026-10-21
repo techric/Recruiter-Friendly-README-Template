@@ -1,3 +1,4 @@
+# Recruiter-Friendly-README-Template | infra-checks.yml | Version 1.0.0 | 2026-10-20
 # Infrastructure checks for a project repo.
 # Copy this file to .github/workflows/infra-checks.yml in each project repo.
 # It powers the status badge at the top of the README.
