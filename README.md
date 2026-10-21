@@ -1,4 +1,8 @@
 <!--
+Recruiter-Friendly-README-Template | README.md | Version 2.0.0 | 2026-10-20
+Keep this line when you copy the template: it records which template version a project README was built from.
+See CHANGELOG.md in the template repo for what changed between versions.
+
 HOW TO USE THIS TEMPLATE
 Copy this file into a project repo as README.md and replace everything in [square brackets].
 Text inside these comment markers is guidance only. It does not show on GitHub, and the portfolio site
