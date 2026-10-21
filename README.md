@@ -1,57 +1,84 @@
 <!--
 HOW TO USE THIS TEMPLATE
 Copy this file into a project repo as README.md and replace everything in [square brackets].
-Text inside these comment markers is guidance only. It does not show on GitHub or on the portfolio site,
-so it is safe to leave in, but you can delete it once the section is filled in.
+Text inside these comment markers is guidance only. It does not show on GitHub, and the portfolio site
+removes it during the build, so it is safe to leave in.
 
-Workflow:
-a. Deploy once using small or dev-sized resources and confirm it works.
-b. Capture 2-3 screenshots and save them in docs/screenshots/.
-c. Record before/after numbers for the Results section while the environment is up.
-d. Tear the infrastructure down to avoid charges (for example, terraform destroy).
-e. Fill in every section below. Keep each one short; reviewers skim.
+Before you start:
+a. Only feature finished projects. A featured project marked "in progress" weakens the page.
+b. Deploy once using small or dev-sized resources and confirm it works.
+c. While it is running: record your measurements, capture 2-3 screenshots into docs/screenshots/,
+   and deliberately break one component to test your failure handling (section 5).
+d. Tear the infrastructure down to avoid charges.
+e. Copy docs/templates/infra-checks.yml into .github/workflows/ so the status badge below is real.
+f. On GitHub, set the repo description (used as the portfolio card summary) and topics (used as its tool tags).
 
-Portfolio site notes:
-a. The first "# Title" line is used as the page title; the site shows it in the page header.
-b. The repo description on GitHub becomes the project card summary, and the repo topics become its tool tags. Set both.
-c. Mermaid diagrams render on GitHub and on the site, and follow light/dark mode.
+Who reads what:
+a. Recruiters read the top block (title through the summary table) and match keywords. Make it count.
+b. Hiring managers read Summary, Requirements, Decisions, and Operations to judge your thinking.
+c. Technical reviewers check Results, Security, the badge, and whether How to Run It actually works.
 -->
 
 # [Project Title]
 
-> [One sentence: what this project does and who it is for. Example: "Centralized logging and tracing for a multi-service app on GKE, built with Terraform and the Grafana LGTM stack."]
+> [One sentence: what it does and for whom. Example: "Centralized logs, metrics, and traces for a multi-service app on GKE, built with Terraform and the Grafana LGTM stack."]
 
-| Cloud | Status | Time to deploy | Cost to run |
-|---|---|---|---|
-| [AWS / Google Cloud] | [Complete / In progress] | [~X minutes] | [~$X per day while running] |
+[![Infrastructure checks](https://github.com/techric/[repo-name]/actions/workflows/infra-checks.yml/badge.svg)](https://github.com/techric/[repo-name]/actions/workflows/infra-checks.yml)
+
+**Highlight:** [The single strongest measured result. Example: "Recovered from a full node pool failure in 4 minutes with no lost telemetry, verified by a controlled failover test."]
+
+| | |
+|---|---|
+| **Stack** | [Example: Google Cloud (GKE, Cloud Storage, IAM), Terraform, Argo CD, OpenTelemetry, Grafana, Loki, Tempo, Mimir] |
+| **Scope** | [Pick one: Solo lab build / Team project at an employer (details anonymized) / Personal tool in daily use] |
+| **My role** | [What you personally did. Example: "Sole designer and builder: architecture, Terraform modules, pipeline, dashboards."] |
+| **Last tested** | [Month Year] |
 
 ---
 
 ## 1. Summary
 
-**a. Problem:** [The situation and why it matters, in one or two sentences. Example: "Teams had no shared view of logs and traces, so incidents took hours to trace across services."]
+**a. Problem:** [The situation and why it matters, in one or two sentences.]
 
-**b. Solution:** [What you built, in one or two sentences. Example: "Deployed Loki, Tempo, and Mimir on GKE with Terraform, with OpenTelemetry collectors on every service."]
+**b. Solution:** [What you built, in one or two sentences.]
 
-**c. Result:** [The measured outcome. Use a number wherever you have one. Example: "Time to locate the failing service dropped from about 45 minutes to under 5."]
+**c. Result:** [The measured outcome, with a number and how you measured it.]
 
 ---
 
-## 2. Architecture
+## 2. Requirements and Constraints
 
 <!--
-Replace the example diagram below with your own. Mermaid is preferred because it renders on GitHub and on the site
-and is easy to update. To use an image instead, save it as docs/architecture.png and replace the code block with:
+Decisions only make sense against the constraints that drove them. List the real ones,
+even for a lab: budget ceiling, uptime target, scale, data rules, time available.
+-->
+
+| Requirement or constraint | Target |
+|---|---|
+| [Example: Monthly budget while running] | [Under $X] |
+| [Example: Survive loss of one zone] | [Yes, with no manual steps] |
+| [Example: No long-lived credentials] | [Workload identity only] |
+| [Requirement] | [Target] |
+
+---
+
+## 3. Architecture
+
+<!--
+Replace the example diagram with your own and name the actual cloud services.
+Mermaid is preferred: it renders on GitHub and on the portfolio site and follows light/dark mode.
+To use an image instead, save it as docs/architecture.png and replace the code block with:
 ![Architecture](docs/architecture.png)
 -->
 
 ```mermaid
 flowchart LR
-  user[Users] --> lb[Load balancer]
-  lb --> app[Application]
-  app --> db[(Database)]
-  app --> otel[Telemetry collector]
-  otel --> obs[Logs, metrics, traces]
+  user[Users] --> lb[Cloud Load Balancing]
+  lb --> app[App on GKE]
+  app --> db[(Cloud SQL)]
+  app --> otel[OpenTelemetry Collector]
+  otel --> obs[Loki / Tempo / Mimir]
+  obs --> graf[Grafana]
 ```
 
 **How it works:**
@@ -62,45 +89,71 @@ flowchart LR
 
 ---
 
-## 3. Key Decisions and Trade-offs
+## 4. Key Decisions and Trade-offs
 
 <!--
-This is the section senior reviewers read most closely. Pick the 2-4 decisions that shaped the design.
-For each, name the options you seriously considered, what you chose, why, and what you gave up.
+The section senior reviewers read most closely. Pick the 2-4 decisions that shaped the design,
+and tie each one back to a requirement in section 2 where you can.
 -->
 
-| Decision | Options considered | Choice | Why | Trade-off accepted |
-|---|---|---|---|---|
-| [Example: Compute platform] | [GKE, Cloud Run, Compute Engine VMs] | [GKE] | [Needed sidecars and a long-running collector] | [More operational overhead than Cloud Run] |
-| [Example: State storage] | [Local state, GCS bucket with locking] | [GCS bucket] | [Safe for team use and CI pipelines] | [One extra bootstrap step] |
-| [Decision] | [Options] | [Choice] | [Why] | [Trade-off] |
+| Decision | Options considered | Choice and why | Trade-off accepted |
+|---|---|---|---|
+| [Example: Compute platform] | [GKE, Cloud Run, Compute Engine] | [GKE: needed sidecars and a long-running collector] | [More operational overhead than Cloud Run] |
+| [Example: Terraform state] | [Local file, Cloud Storage with locking] | [Cloud Storage: safe for CI and team use] | [One extra bootstrap step] |
+| [Decision] | [Options] | [Choice and why] | [Trade-off] |
 
-**What I would do differently:** [One or two honest sentences on what you would change with hindsight, more time, or a production budget.]
+**What I would do differently:** [One or two honest sentences on what you would change with hindsight.]
 
 ---
 
-## 4. Results and Proof of Work
+## 5. Operations
+
+**a. Monitoring and alerting:** [What you watch and what triggers an alert. Example: "Alerts on error rate above 2% for 5 minutes and on collector queue backlog; dashboards for latency by service."]
+
+**b. Failure handling:**
+
+<!--
+Test at least one row for real and say so. A tested failure is far more convincing than a planned one.
+-->
+
+| Failure | What happens | How it recovers | Tested? |
+|---|---|---|---|
+| [Example: A node fails] | [Pods reschedule to healthy nodes] | [Automatic, about 2 minutes] | [Yes, by draining a node] |
+| [Example: Telemetry backend unavailable] | [Collector buffers data] | [Automatic replay when backend returns] | [No, by design only] |
+| [Failure] | [What happens] | [How it recovers] | [Yes / No] |
+
+**c. Runbook:** [Link to docs/runbook.md if you wrote one, or remove this line.]
+
+---
+
+## 6. Results and Proof of Work
 
 **a. Measured results**
 
-| Metric | Before | After |
+<!--
+Only report numbers you actually measured, and say how. Reviewers discount round numbers with no method.
+If there is no real "before," report absolute results instead: load test throughput, latency at p95,
+failover recovery time, cost per day from the billing export, or an Infracost estimate.
+-->
+
+| Metric | Result | How measured |
 |---|---|---|
-| [Example: Time to find failing service] | [~45 min] | [<5 min] |
-| [Example: Monthly cost] | [$X] | [$Y] |
-| [Metric] | [Value] | [Value] |
+| [Example: p95 latency at 200 requests per second] | [180 ms] | [k6 load test, 10 minutes] |
+| [Example: Recovery from zone loss] | [4 min] | [Controlled failover test] |
+| [Example: Cost while running] | [$X per day] | [Cloud billing export] |
 
 **b. Screenshots**
 
 <!--
-Add 2-3 screenshots to docs/screenshots/, then move the matching lines below out of this comment.
-They are kept inside the comment so that missing images never show as broken links.
+Add 2-3 screenshots to docs/screenshots/, then move the matching lines out of this comment.
+They stay inside the comment until the files exist, so missing images never show as broken links.
 
 ![Cluster deployed](docs/screenshots/cluster.png)
 ![Dashboard](docs/screenshots/dashboard.png)
 ![Pipeline run](docs/screenshots/pipeline.png)
 -->
 
-[Short caption for each screenshot once added.]
+[One-line caption for each screenshot once added.]
 
 **c. Command output**
 
@@ -109,63 +162,91 @@ They are kept inside the comment so that missing images never show as broken lin
 Apply complete! Resources: 12 added, 0 changed, 0 destroyed.
 ```
 
+**d. Automated checks:** Every push runs terraform fmt, terraform validate, TFLint, and a Checkov policy scan. Current status is shown by the badge at the top.
+
 ---
 
-## 5. How to Run It
+## 7. Security
 
-**a. Prerequisites:** [Example: Terraform 1.7+, gcloud CLI, a Google Cloud project with billing enabled.]
+**a. Identity and access:** [Example: "Each service has its own service account with only the roles it needs; no project-wide Owner or Editor roles."]
+
+**b. Credentials:** [Example: "No long-lived keys. CI authenticates with workload identity federation; workloads use GKE Workload Identity."]
+
+**c. Secrets:** [Example: "Stored in Secret Manager, never in code or Terraform state."]
+
+**d. Network exposure:** [Example: "Only the load balancer is public; nodes and the database have private addresses only."]
+
+**e. State and data:** [Example: "Terraform state in a private, versioned bucket with encryption at rest."]
+
+See the [Security Policy](SECURITY.md) and [Security Checklist](docs/security-checklist.md).
+
+---
+
+## 8. Cost
+
+**a. Estimated cost:** [Example: "About $X per day while running, $0 after teardown."]
+
+**b. How estimated:** [Example: "Infracost estimate, confirmed against the billing export after a 24-hour run."]
+
+**c. Teardown:** This project is deployed on demand and destroyed after testing. [List anything that keeps billing after teardown, such as the state bucket.]
+
+---
+
+## 9. Production Readiness
+
+<!--
+Shows you know the difference between a working build and a production system.
+Be specific; this is where lab projects earn senior-level credibility.
+-->
+
+| Area | This project | What production would need |
+|---|---|---|
+| [Example: Availability] | [Single region, multi-zone] | [Multi-region failover with tested recovery] |
+| [Example: Backups] | [None] | [Automated backups with restore tests] |
+| [Example: Service level objectives] | [Dashboards only] | [Defined SLOs with error budgets and paging] |
+| [Area] | [Current] | [Needed] |
+
+---
+
+## 10. How to Run It
+
+**a. Prerequisites:** [Example: Terraform 1.7+, Google provider 5.x (pinned in versions.tf), gcloud CLI, a Google Cloud project with billing enabled.]
 
 **b. Deploy:**
 
 ```bash
-[git clone https://github.com/techric/your-repo.git]
-[cd your-repo/infra]
-[terraform init]
-[terraform apply]
+git clone https://github.com/techric/[repo-name].git
+cd [repo-name]/infra
+cp terraform.tfvars.example terraform.tfvars   # then set your project ID
+terraform init
+terraform apply
 ```
 
-**c. Verify:** [How to confirm it works. Example: open the Grafana URL from the Terraform output and check the "Services" dashboard.]
+**c. Verify:** [How to confirm it works. Example: "Open the Grafana URL from the Terraform output and check the Services dashboard."]
 
 **d. Tear down:**
 
 ```bash
-[terraform destroy]
+terraform destroy
 ```
 
 ---
 
-## 6. Tech Used
-
-| Area | Tools |
-|---|---|
-| [Cloud] | [Example: Google Cloud (GKE, Cloud Storage, IAM)] |
-| [Infrastructure as code] | [Example: Terraform, Terragrunt] |
-| [Delivery] | [Example: GitHub Actions, Argo CD] |
-| [Observability] | [Example: OpenTelemetry, Grafana, Loki, Tempo, Mimir] |
-
----
-
-## 7. Security and Cost
-
-**a. Security:** [One or two sentences on how access, secrets, and network exposure are handled.] See the [Security Policy](SECURITY.md) and [Security Checklist](docs/security-checklist.md).
-
-**b. Cost:** This project is deployed on demand and torn down after testing to avoid ongoing charges. [Add the estimated cost per run, and any services that keep billing after teardown.]
-
----
-
-## 8. Repo Structure
+## 11. Repo Structure
 
 ```text
-infra/            Terraform code
-docs/             Architecture diagrams, screenshots, security checklist
-scripts/          Helper scripts
-README.md         This case study
-SECURITY.md       Security policy
-CONTRIBUTING.md   Contribution rules
+infra/              Terraform code
+docs/               Architecture diagram, screenshots, runbook, security checklist
+scripts/            Helper scripts
+.github/workflows/  Automated checks
+README.md           This case study
+SECURITY.md         Security policy
+CONTRIBUTING.md     Contribution rules
 ```
 
 ---
 
 ## Author
 
-Built by [Techric](https://github.com/techric), a cloud engineer focused on secure, automated, and observable infrastructure on AWS and Google Cloud.
+[Your Name], cloud infrastructure engineer.
+[Portfolio](https://techric.github.io) · [LinkedIn](https://www.linkedin.com/in/[your-handle]) · [GitHub](https://github.com/techric)
