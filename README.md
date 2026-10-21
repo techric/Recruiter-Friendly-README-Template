@@ -1,6 +1,11 @@
 <!--
-Recruiter-Friendly-README-Template | README.md | Version 2.0.0 | 2026-10-20
+Recruiter-Friendly-README-Template | README.md | Version 2.1.0 | 2026-10-20
 Keep this line when you copy the template: it records which template version a project README was built from.
+
+NEW TO THIS TEMPLATE? Read the step-by-step guide first:
+https://github.com/techric/Recruiter-Friendly-README-Template/blob/main/HOW-TO-GUIDE.md
+See a finished example:
+https://github.com/techric/Recruiter-Friendly-README-Template/blob/main/docs/example-case-study.md
 See CHANGELOG.md in the template repo for what changed between versions.
 
 HOW TO USE THIS TEMPLATE

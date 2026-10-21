@@ -8,6 +8,13 @@ All notable changes to this template are recorded here. Versions follow semantic
 
 The current version is stamped in the hidden guidance comment at the top of README.md, so you can tell which version a project README was built from.
 
+## 2.1.0 - 2026-10-20
+
+### Added
+- HOW-TO-GUIDE.md: a step-by-step guide written for first-time GitHub users, covering account setup, copying the template, testing and note-taking, uploading files safely, filling in each README section with weak and strong examples, turning on the automatic checks, a pre-publish checklist, adding a project to the portfolio site, and troubleshooting.
+- docs/example-case-study.md: a complete, filled-in example README.
+- Links to the guide and the example in the README's hidden guidance comment.
+
 ## 2.0.0 - 2026-10-20
 
 ### Added
