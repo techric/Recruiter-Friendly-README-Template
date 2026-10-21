@@ -1,0 +1,50 @@
+# Infrastructure checks for a project repo.
+# Copy this file to .github/workflows/infra-checks.yml in each project repo.
+# It powers the status badge at the top of the README.
+# Assumes Terraform code lives in infra/. Change TF_DIR if it lives elsewhere.
+name: Infrastructure checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  TF_DIR: infra
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v3
+
+      - name: Formatting
+        run: terraform fmt -check -recursive
+        working-directory: ${{ env.TF_DIR }}
+
+      - name: Validate
+        run: |
+          terraform init -backend=false -input=false
+          terraform validate
+        working-directory: ${{ env.TF_DIR }}
+
+      - uses: terraform-linters/setup-tflint@v4
+
+      - name: TFLint
+        run: |
+          tflint --init
+          tflint --recursive
+        working-directory: ${{ env.TF_DIR }}
+
+      - name: Checkov policy scan
+        uses: bridgecrewio/checkov-action@v12
+        with:
+          directory: ${{ env.TF_DIR }}
+          framework: terraform
+          quiet: true
